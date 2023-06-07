@@ -90,7 +90,8 @@ class MovieDetailViewController: UIViewController {
         attributesContainer.bottomAnchor.constraint(lessThanOrEqualTo: self.scrollableContent.bottomAnchor, constant: -20).isActive = true
         
         // add stackview
-        attributesContainer.addSubviewWithParentConstraints(subView: self.attributesStack, edges: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
+        attributesContainer.addSubviewWithParentConstraints(subView: self.attributesStack,
+                                                            edges: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
         
     }
     

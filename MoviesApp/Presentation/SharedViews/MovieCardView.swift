@@ -13,7 +13,6 @@ class MovieCardView: UIView {
     // MARK: - Properties
     private let disposeBag = DisposeBag()
     var imagePublisher: PassthroughSubject<UIImage?, Never> = PassthroughSubject()
-    
     let axis: NSLayoutConstraint.Axis
     
     // MARK: - UIViews
@@ -59,17 +58,15 @@ class MovieCardView: UIView {
         
         switch axis {
         case .horizontal:
-            
             setupViewHorizontally()
         case .vertical:
-            
             setupViewVertically()
-            
         @unknown default: break
         }
     }
     
     private func setupViewVertically() {
+        
         // add image container
         self.addSubview(imageContainer)
         imageContainer.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7).isActive = true
@@ -90,9 +87,9 @@ class MovieCardView: UIView {
     }
     
     private func setupViewHorizontally() {
-        self.addSubview(imageContainer)
         
         // add image container
+        self.addSubview(imageContainer)
         imageContainer.widthAnchor.constraint(equalToConstant: 50).isActive = true
         imageContainer.heightAnchor.constraint(equalToConstant: 50).isActive = true
         imageContainer.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
@@ -120,6 +117,7 @@ class MovieCardView: UIView {
     
     func load(title: String, imagePublisher: AnyPublisher<UIImage?, Never>) {
         disposeBag.clear()
+        self.movieImage.image = Styles.Images.appIcon
         self.movieTitle.text = title
         imagePublisher
             .receive(on: DispatchQueue.main)
@@ -127,3 +125,4 @@ class MovieCardView: UIView {
             .store(in: disposeBag)
     }
 }
+

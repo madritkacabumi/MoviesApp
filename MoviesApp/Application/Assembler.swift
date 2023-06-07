@@ -17,7 +17,7 @@ protocol Assembler: AnyObject {
     //MARK: - UseCases
     func resolve() -> FetchMoviesListUseCaseType
     func resolve() -> FetchFavouritesMoviesUseCaseType
-    func resolve() -> FetchMovieImagesUseCaseType
+    func resolve() -> FetchMovieImageUseCaseType
     
     // MARK: Presentation
     func resolve() -> MainCoordinatorType
@@ -46,8 +46,8 @@ class DefaultAssembler: Assembler {
         return FetchFavouritesMoviesUseCase(network: resolve())
     }
     
-    func resolve() -> FetchMovieImagesUseCaseType {
-        return FetchMovieImagesUseCase(network: resolve())
+    func resolve() -> FetchMovieImageUseCaseType {
+        return FetchMovieImageUseCase(network: resolve())
     }
     
     // MARK: - Presentation

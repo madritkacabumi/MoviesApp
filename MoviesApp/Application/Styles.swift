@@ -13,6 +13,11 @@ struct Styles {
         
         static let primaryBlueColor = UIColor(hexString: "#0A7BBA")
         static let blackOpaque80Color = UIColor.black.withAlphaComponent(0.8)
+        static let errorLabel = UIColor.red
+    }
+    
+    struct Images {
+        static var appIcon: UIImage? { UIImage(named: "AppIcon") }
     }
 }
 

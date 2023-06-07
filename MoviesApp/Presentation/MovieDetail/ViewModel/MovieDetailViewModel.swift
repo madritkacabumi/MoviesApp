@@ -29,10 +29,10 @@ struct MovieDetailViewModel {
     
     // MARK: - Properties
     private let movie: MovieModel
-    private let fetchImageUseCase: FetchMovieImagesUseCaseType
+    private let fetchImageUseCase: FetchMovieImageUseCaseType
     
     // MARK: - Construct
-    init(movie: MovieModel, fetchImageUseCase: FetchMovieImagesUseCaseType) {
+    init(movie: MovieModel, fetchImageUseCase: FetchMovieImageUseCaseType) {
         self.movie = movie
         self.fetchImageUseCase = fetchImageUseCase
     }

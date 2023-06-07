@@ -13,7 +13,8 @@ public typealias Trigger<T> = PassthroughSubject<T, Never>
 // MARK: - DisposeBag
 class DisposeBag {
     
-    var subscriptions = Set<AnyCancellable>()
+    fileprivate var subscriptions = Set<AnyCancellable>()
+    var isEmpty: Bool { subscriptions.isEmpty }
     
     func clear() {
         subscriptions.forEach { $0.cancel() }
