@@ -17,11 +17,16 @@ protocol Assembler: AnyObject {
     //MARK: - UseCases
     func resolve() -> FetchMoviesListUseCaseType
     func resolve() -> FetchFavouritesMoviesUseCaseType
+    func resolve() -> FetchMovieImagesUseCaseType
     
     // MARK: Presentation
     func resolve() -> MainCoordinatorType
-    func resolve(coordinator: MainCoordinatorType) -> MoviesPresentationViewModel
-    func resolve(viewModel: MoviesPresentationViewModel) -> MoviesPresentationViewController
+    
+    func resolve(coordinator: MainCoordinatorType) -> MoviesListViewModel
+    func resolve(viewModel: MoviesListViewModel) -> MoviesListViewController
+    
+    func resolve(movieModel: MovieModel) -> MovieDetailViewModel
+    func resolve(viewModel: MovieDetailViewModel) -> MovieDetailViewController
     
 }
 
@@ -41,16 +46,31 @@ class DefaultAssembler: Assembler {
         return FetchFavouritesMoviesUseCase(network: resolve())
     }
     
+    func resolve() -> FetchMovieImagesUseCaseType {
+        return FetchMovieImagesUseCase(network: resolve())
+    }
+    
     // MARK: - Presentation
     func resolve() -> MainCoordinatorType {
         return MainCoordinator(assembler: self)
     }
     
-    func resolve(coordinator: MainCoordinatorType) -> MoviesPresentationViewModel {
-        return MoviesPresentationViewModel(moviesListUseCase: resolve(), favouritesUseCase: resolve(), coordinator: coordinator)
+    func resolve(coordinator: MainCoordinatorType) -> MoviesListViewModel {
+        return MoviesListViewModel(moviesListUseCase: resolve(),
+                                           favouritesUseCase: resolve(),
+                                           fetchImageUseCase: resolve(),
+                                           coordinator: coordinator)
     }
     
-    func resolve(viewModel: MoviesPresentationViewModel) -> MoviesPresentationViewController {
-       return MoviesPresentationViewController(viewModel: viewModel)
+    func resolve(viewModel: MoviesListViewModel) -> MoviesListViewController {
+       return MoviesListViewController(viewModel: viewModel)
+    }
+    
+    func resolve(movieModel: MovieModel) -> MovieDetailViewModel {
+        return MovieDetailViewModel(movie: movieModel, fetchImageUseCase: resolve())
+    }
+    
+    func resolve(viewModel: MovieDetailViewModel) -> MovieDetailViewController {
+        return MovieDetailViewController(viewModel)
     }
 }

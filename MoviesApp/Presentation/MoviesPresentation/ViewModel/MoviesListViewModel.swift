@@ -1,5 +1,5 @@
 //
-//  MoviesPresentationViewModel.swift
+//  MoviesListViewModel.swift
 //  MoviesApp
 //
 //  Created by Madrit Kacabumi on 06.06.23.
@@ -7,8 +7,9 @@
 
 import Foundation
 import Combine
+import AlamofireImage
 
-enum MoviePresentationSectionType {
+enum MoviesSectionType {
     case favorites
     case watched
     case toWatch
@@ -25,37 +26,32 @@ enum MoviePresentationSectionType {
     }
 }
 
-struct MoviePresentationSection {
-    let presentationType: MoviePresentationSectionType
+struct MoviesSection {
+    let sectionType: MoviesSectionType
     let movies: [MovieItemEntity]
 }
 
-// move to cell
-struct MovieItemEntity {
-    
-    private var movie: MovieModel
-    
-    init(movie: MovieModel) {
-        self.movie = movie
-    }
-}
-
-struct MoviesPresentationViewModel {
+struct MoviesListViewModel {
     
     // MARK: - I/O
     struct Input {
         let loadPageTrigger: Trigger<Void>
+        let openDetailsTrigger: Trigger<Void>
     }
     
     class Output {
-        @Published var errorMessage: String?
-        @Published var sections: [MoviePresentationSection] = []
+        @Published fileprivate var selectedEntity: MovieItemEntity?
+        @Published var errorMessage: String? = nil
+        @Published var sections: [MoviesSection] = []
+        @Published var isValidSelection = false
         let isLoading = PassthroughSubject<Bool, Never>()
     }
     
     // MARK: - Properties
+    var selectionDisposeBag = DisposeBag()
     let moviesListUseCase: FetchMoviesListUseCaseType
     let favouritesUseCase: FetchFavouritesMoviesUseCaseType
+    let fetchImageUseCase: FetchMovieImagesUseCaseType
     let coordinator: MainCoordinatorType
     
     // MARK: - Fetch output
@@ -66,20 +62,21 @@ struct MoviesPresentationViewModel {
     ///   - disposeBag: Cancellable bag to store cancellables
     /// - Returns: the Output required for the view to bind
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
+        
         let output = Output()
         
         input.loadPageTrigger
             .handleValue(callback: { _ in
                 output.isLoading.send(true)
-            })
-            .flatMap { _ -> AnyPublisher<[MoviePresentationSection], Error> in
+                output.selectedEntity = nil
+            }).flatMap { _ -> AnyPublisher<[MoviesSection], Error> in
             
             // get movies list publisher
             let moviesListPublisher = moviesListUseCase.getMoviesList()
                 .map {
                     // sorting the results
-//                    $0.results
                     return self.sortMovies(movies: $0.results)
+                    
                 }.eraseToAnyPublisher()
             
             // get favourites publisher
@@ -89,52 +86,79 @@ struct MoviesPresentationViewModel {
                     return Just(ResponseModelWrapper(results: [])) // empty response as we ignore the error for the favourites
                 })
                 .setFailureType(to: Error.self)
-                    .map { $0.results }
+                .map { $0.results }
                 .eraseToAnyPublisher()
             
             // zip publishers
             return Publishers.Zip(moviesListPublisher, favouritesPublisher)
                 .receive(on: DispatchQueue.global())
                 .map({ moviesList, favouritesList in
-                    return self.generateSections(moviesList: moviesList, favourites: favouritesList)
+                    return self.generateSections(moviesList: moviesList, favourites: favouritesList, for: output)
+                    
                 }).eraseToAnyPublisher()
-        }
-        .catch({ error in
+                
+        }.catch({ error in
             return Just([])
+            
         }).sink(receiveValue: { items in
             output.sections = items
             output.isLoading.send(false)
-        })
+            
+        }).store(in: disposeBag)
+        
+        input.openDetailsTrigger.sink { _ in
+            guard let selectedMovie = output.selectedEntity?._movieModel else {
+                return
+            }
+            coordinator.openDetails(selectedMovie)
+        }.store(in: disposeBag)
+        
+        output.$selectedEntity
+            .map { $0 != nil }
+        .assign(to: \.isValidSelection, on: output)
         .store(in: disposeBag)
         
         return output
     }
     
-    private func generateSections(moviesList: [MovieModel], favourites: [FavouriteMovieModel]) -> [MoviePresentationSection] {
+    private func generateSections(moviesList: [MovieModel], favourites: [FavouriteMovieModel], for outPut: Output) -> [MoviesSection] {
         
-        var sections = [MoviePresentationSection]()
+        selectionDisposeBag.clear()
+        var sections = [MoviesSection]()
         
         var favouritesEntities = [MovieItemEntity]()
         var watchedEntities = [MovieItemEntity]()
         var toWatchEntities = [MovieItemEntity]()
         
         for movie in moviesList {
-            let entity = MovieItemEntity(movie: movie)
+            let entity = MovieItemEntity(movie: movie, useCase: self.fetchImageUseCase)
             if favourites.contains(where: { $0.id == movie.id }) {
                 favouritesEntities.append(entity)
-                
-                // if favourites contains this movie, means it should be displayed also in to watch and watched
-                watchedEntities.append(entity)
-                toWatchEntities.append(entity)
-            } else {
-                movie.isWatched ? watchedEntities.append(entity) : toWatchEntities.append(entity)
             }
+            movie.isWatched ? watchedEntities.append(entity) : toWatchEntities.append(entity)
+            entity
+                .isSelected
+                .filter { $0 }
+                .sink { _ in
+                    guard outPut.selectedEntity != entity else {
+                        return
+                    }
+                    outPut.selectedEntity?.isSelected.send(false)
+                    outPut.selectedEntity = entity
+                }.store(in: selectionDisposeBag)
         }
         
         // build sections
-        sections.append(MoviePresentationSection(presentationType: .favorites, movies: favouritesEntities))
-        sections.append(MoviePresentationSection(presentationType: .watched, movies: watchedEntities))
-        sections.append(MoviePresentationSection(presentationType: .toWatch, movies: toWatchEntities))
+        if !favouritesEntities.isEmpty {
+            sections.append(MoviesSection(sectionType: .favorites, movies: favouritesEntities))
+        }
+        if !watchedEntities.isEmpty {
+            sections.append(MoviesSection(sectionType: .watched, movies: watchedEntities))
+        }
+        
+        if !toWatchEntities.isEmpty {
+            sections.append(MoviesSection(sectionType: .toWatch, movies: toWatchEntities))
+        }
         
         return sections
     }
@@ -150,6 +174,4 @@ struct MoviesPresentationViewModel {
         }
     }
 }
-
-
 

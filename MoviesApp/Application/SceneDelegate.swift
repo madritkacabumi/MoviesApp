@@ -25,7 +25,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
               let rootViewController = coordinator?.rootViewController else  {
             fatalError("Can't start the app!")
         }
-        
         let window = UIWindow(windowScene: windowScene)
         window.rootViewController = rootViewController
         self.window = window

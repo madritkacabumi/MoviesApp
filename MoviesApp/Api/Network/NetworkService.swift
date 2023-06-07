@@ -8,12 +8,14 @@
 import Foundation
 import Combine
 import Alamofire
+import AlamofireImage
 
 protocol NetworkServiceType {
     func request<T: Decodable>(resource: APIResource, for type: T.Type) -> AnyPublisher<T, Error>
+    func requestImage(resource: APIResource) -> AnyPublisher<Image, Error>
 }
 
-class NetworkService: NetworkServiceType {
+struct NetworkService: NetworkServiceType {
     
     let session: Session
     
@@ -42,6 +44,20 @@ class NetworkService: NetworkServiceType {
                         throw error
                 }
             }.eraseToAnyPublisher()
+    }
+    
+    func requestImage(resource: APIResource) -> AnyPublisher<Image, Error> {
+        
+        return Future { promise in
+            session.request(resource.requestURLString).responseImage { imageResponse in
+                switch imageResponse.result {
+                case .success(let image):
+                    promise(.success(image))
+                case .failure(let error):
+                    promise(.failure(error))
+                }
+            }
+        }.eraseToAnyPublisher()
     }
 }
 
