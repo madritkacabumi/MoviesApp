@@ -12,6 +12,9 @@ class DataModelsTests: XCTestCase {
     
     func test_dataParsing() {
         XCTAssertNotNil(MockProvider.moviesListResponse)
+        XCTAssertFalse((MockProvider.moviesListResponse?.results ?? []).isEmpty)
         XCTAssertNotNil(MockProvider.favouritesListResponse)
+        XCTAssertFalse((MockProvider.favouritesListResponse?.results ?? []).isEmpty)
     }
+    
 }

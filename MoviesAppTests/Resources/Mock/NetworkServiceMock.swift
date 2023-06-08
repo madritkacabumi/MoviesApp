@@ -20,8 +20,9 @@ class NetworkServiceMock: NetworkServiceType {
     
     func requestImage(resource: MoviesApp.APIResource) -> AnyPublisher<MoviesApp.Image, Error> {
         requestImageCounter.increment()
-        return Just(Image())
+        return Just(Styles.Image.appIcon ?? Image())
             .setFailureType(to: Error.self)
             .eraseToAnyPublisher()
     }
+    
 }

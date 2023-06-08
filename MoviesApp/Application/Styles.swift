@@ -9,23 +9,35 @@ import UIKit
 
 struct Styles {
     
+    // MARK: - Color
     struct Color {
-        
         static let primaryBlueColor = UIColor(hexString: "#0A7BBA")
         static let blackOpaque80Color = UIColor.black.withAlphaComponent(0.8)
         static let errorLabel = UIColor.red
+        static let white = UIColor.white
+        
     }
     
-    struct Images {
+    // MARK: - UIFont
+    struct Image {
         static var appIcon: UIImage? { UIImage(named: "AppIcon") }
+        
+    }
+    
+    // MARK: - UIFont
+    struct Font {
+        static let titleLargeSystemFont = UIFont.systemFont(ofSize: 22)
+        static let mediumSystemFont = UIFont.systemFont(ofSize: 16)
+        static let smallSystemFont = UIFont.systemFont(ofSize: 12)
+        
     }
 }
 
 extension UIColor {
     
     convenience init(hexString: String, alpha: CGFloat = 1.0) {
+        
         var hexFormatted: String = hexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).uppercased()
-
         if hexFormatted.hasPrefix("#") {
             hexFormatted = String(hexFormatted.dropFirst())
         }
@@ -40,4 +52,5 @@ extension UIColor {
                   blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
                   alpha: alpha)
     }
+    
 }

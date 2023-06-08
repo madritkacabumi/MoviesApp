@@ -33,4 +33,5 @@ class NetworkTests: XCTestCase {
         let apiRequest2 = APIRequest(resource: MockResource(httpMethod: .post))
         XCTAssertNoThrow(try apiRequest2.asURLRequest())
     }
+    
 }

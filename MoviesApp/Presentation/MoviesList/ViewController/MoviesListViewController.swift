@@ -41,7 +41,7 @@ class MoviesListViewController: UIViewController {
         label.textColor = Styles.Color.errorLabel
         label.text = "Ops... An Unexpected error happened. Please try again by swiping me down."
         label.numberOfLines = .zero
-        label.font = .systemFont(ofSize: 16)
+        label.font = Styles.Font.mediumSystemFont
         return label
     }()
     
@@ -50,7 +50,7 @@ class MoviesListViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Next", for: .normal)
         button.cornerRadius = 10
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(Styles.Color.white, for: .normal)
         button.setBackgroundColor(Styles.Color.primaryBlueColor, for: .normal)
         button.setBackgroundColor(.lightGray, for: .disabled)
         button.addTarget(self, action: #selector(nextButtonPressed), for: .touchUpInside)
@@ -78,7 +78,7 @@ class MoviesListViewController: UIViewController {
     
     func setupView() {
         
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = Styles.Color.white
         self.title = "Movies App" // todo localise
         // add button
         self.view.addSubview(nextButton)

@@ -19,4 +19,5 @@ struct FetchFavouritesMoviesUseCaseMock: FetchFavouritesMoviesUseCaseType {
             .setFailureType(to: Error.self)
             .eraseToAnyPublisher()
     }
+    
 }

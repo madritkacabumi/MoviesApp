@@ -63,4 +63,5 @@ class MovieItemTableViewCell: UITableViewCell {
             return self.entity?.isSelected.value ?? false
         }
     }
+    
 }

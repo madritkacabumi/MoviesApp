@@ -12,7 +12,7 @@ class HorizontalMovieListTableViewCell: UITableViewCell {
     static var reuseIdentifier: String { String(describing: HorizontalMovieListTableViewCell.self) }
     
     // MARK: - Properties
-    let adapter = HorizontalMoviePresentationAdapter()
+    let adapter = HorizontalMovieListPresentationAdapter()
     
     // MARK: - UIViews
     lazy var collectionView: UICollectionView = {
@@ -43,15 +43,15 @@ class HorizontalMovieListTableViewCell: UITableViewCell {
         self.selectionStyle = .none
         self.backgroundColor = .clear
         self.contentView.addSubviewWithParentConstraints(subView: collectionView)
-        
+        //  setup collectionview
         adapter.registerCells(for: collectionView)
         self.collectionView.delegate = adapter
         self.collectionView.dataSource = adapter
-        
     }
     
     func bind(with movieEntities: [MovieItemEntity]) {
         adapter.movieEntities = movieEntities
         self.collectionView.reloadData()
     }
+    
 }

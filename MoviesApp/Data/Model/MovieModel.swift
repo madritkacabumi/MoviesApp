@@ -31,4 +31,5 @@ struct MovieModel: Codable {
         case releaseDate = "release_date"
         case title, rating, isWatched
     }
+    
 }

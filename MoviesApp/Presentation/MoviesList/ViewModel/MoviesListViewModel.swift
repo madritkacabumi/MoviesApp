@@ -10,6 +10,7 @@ import Combine
 import AlamofireImage
 
 enum MoviesSectionType {
+    
     case favorites
     case watched
     case toWatch
@@ -174,5 +175,6 @@ struct MoviesListViewModel {
             }
         }
     }
+    
 }
 

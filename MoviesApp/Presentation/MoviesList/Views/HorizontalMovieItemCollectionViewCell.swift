@@ -55,10 +55,11 @@ class HorizontalMovieItemCollectionViewCell: UICollectionViewCell {
     // MARK: - Selection
     var cellSelected: Bool {
         set {
-            self.movieCard.borderColor = newValue ? Styles.Color.primaryBlueColor : .white
+            self.movieCard.borderColor = newValue ? Styles.Color.primaryBlueColor : .clear
         }
         get {
             return self.entity?.isSelected.value ?? false
         }
     }
+    
 }

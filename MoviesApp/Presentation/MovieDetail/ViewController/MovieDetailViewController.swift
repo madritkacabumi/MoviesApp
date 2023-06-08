@@ -71,7 +71,7 @@ class MovieDetailViewController: UIViewController {
     }
     
     func setupView() {
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = Styles.Color.white
         
         // add scrollview
         self.view.addSubviewWithParentConstraints(subView: scrollView, useSafeArea: true)
@@ -103,13 +103,13 @@ class MovieDetailViewController: UIViewController {
         stack.spacing = 10
         
         let labelAttr = UILabel()
-        labelAttr.font = .boldSystemFont(ofSize: 16)
-        labelAttr.textColor = .white
+        labelAttr.font = Styles.Font.mediumSystemFont
+        labelAttr.textColor = Styles.Color.white
         labelAttr.text = labelString
         
         let labelValue = UILabel()
-        labelValue.font = .systemFont(ofSize: 16)
-        labelValue.textColor = .white
+        labelValue.font = Styles.Font.mediumSystemFont
+        labelValue.textColor = Styles.Color.white
         labelValue.text = value
         labelAttr.contentMode = .center
         labelValue.numberOfLines = .zero
@@ -154,4 +154,5 @@ extension MovieDetailViewController {
             attributesStack.addArrangedSubview(view)
         }
     }
+    
 }

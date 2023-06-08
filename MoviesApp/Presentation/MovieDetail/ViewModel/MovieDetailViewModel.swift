@@ -54,7 +54,7 @@ struct MovieDetailViewModel {
                     return image
                 })
                 .catch({ error in
-                    return Just(nil)
+                    return Just(Styles.Image.appIcon)
                 }).eraseToAnyPublisher()
                 
             output.attributes = self.loadAttributes(movie: movie)
@@ -71,4 +71,5 @@ struct MovieDetailViewModel {
         attributes.append(MovieAttributes(label: "Original language:", value: movie.originalLanguage))
         return attributes
     }
+    
 }

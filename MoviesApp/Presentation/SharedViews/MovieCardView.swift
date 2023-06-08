@@ -34,8 +34,8 @@ class MovieCardView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 3
-        label.textColor = .white
-        label.font = .systemFont(ofSize: 12)
+        label.textColor = Styles.Color.white
+        label.font = Styles.Font.smallSystemFont
         return label
     }()
     
@@ -101,7 +101,7 @@ class MovieCardView: UIView {
         
         // add movie title
         addSubview(movieTitle)
-        movieTitle.font = .systemFont(ofSize: 16)
+        movieTitle.font = Styles.Font.mediumSystemFont
         movieTitle.leadingAnchor.constraint(equalTo: self.imageContainer.trailingAnchor, constant: 10).isActive = true
         movieTitle.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
         movieTitle.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -10).isActive = true
@@ -112,12 +112,12 @@ class MovieCardView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.imageContainer.asCircle()
+        self.imageContainer.borderAsCircle()
     }
     
     func load(title: String, imagePublisher: AnyPublisher<UIImage?, Never>) {
         disposeBag.clear()
-        self.movieImage.image = Styles.Images.appIcon
+        self.movieImage.image = Styles.Image.appIcon
         self.movieTitle.text = title
         imagePublisher
             .receive(on: DispatchQueue.main)

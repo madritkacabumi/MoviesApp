@@ -22,4 +22,5 @@ class MainCoordinatorMock: MainCoordinatorType {
     func openDetails(_ movie: MoviesApp.MovieModel) {
         openDetailsCounter.increment()
     }
+    
 }

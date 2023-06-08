@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HorizontalMoviePresentationAdapter: NSObject {
+class HorizontalMovieListPresentationAdapter: NSObject {
     
     // MARK: - Properties
     var movieEntities: [MovieItemEntity] = []
@@ -18,7 +18,7 @@ class HorizontalMoviePresentationAdapter: NSObject {
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
-extension HorizontalMoviePresentationAdapter: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension HorizontalMovieListPresentationAdapter: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return movieEntities.count
@@ -40,4 +40,5 @@ extension HorizontalMoviePresentationAdapter: UICollectionViewDelegate, UICollec
         movieEntities[indexPath.row].isSelected.send(true)
         collectionView.deselectItem(at: indexPath, animated: false)
     }
+    
 }

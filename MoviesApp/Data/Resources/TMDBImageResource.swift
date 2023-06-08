@@ -8,16 +8,13 @@
 import Alamofire
 
 struct TMDBImageResource: APIResource {
-    
     let httpMethod: HTTPMethod = .get
-    
     let parameters: Parameters? = nil
-    
     let headers: [String : String]? = [:]
-    
     let requestURLString: String
     
     init(imageName: String) {
+        
         self.requestURLString = APIConfig.imagesEndpoint + "/\(imageName)"
     }
 }

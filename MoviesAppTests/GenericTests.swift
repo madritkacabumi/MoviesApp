@@ -23,4 +23,5 @@ class GenericTests: XCTestCase {
         disposeBag.clear()
         XCTAssertTrue(disposeBag.isEmpty)
     }
+    
 }

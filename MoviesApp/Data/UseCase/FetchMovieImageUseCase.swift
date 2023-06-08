@@ -20,4 +20,5 @@ struct FetchMovieImageUseCase: FetchMovieImageUseCaseType {
         let resource = TMDBImageResource(imageName: imageName)
         return network.requestImage(resource: resource)
     }
+    
 }

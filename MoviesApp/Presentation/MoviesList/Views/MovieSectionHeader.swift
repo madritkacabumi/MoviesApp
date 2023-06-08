@@ -14,7 +14,7 @@ class MovieSectionHeader: UIView {
     lazy var sectionTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = Styles.Color.blackOpaque80Color
-        label.font = .systemFont(ofSize: 22)
+        label.font = Styles.Font.titleLargeSystemFont
         return label
     }()
     
@@ -29,9 +29,10 @@ class MovieSectionHeader: UIView {
     }
     
     func setupView() {
-        self.backgroundColor = .white
+        self.backgroundColor = Styles.Color.white
         addSubviewWithParentConstraints(subView: sectionTitleLabel,
                                         edges: UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10))
         sectionTitleLabel.text = title
     }
+    
 }

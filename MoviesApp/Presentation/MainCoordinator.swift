@@ -39,8 +39,8 @@ class MainCoordinator: MainCoordinatorType {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = Styles.Color.blackOpaque80Color
-        appearance.titleTextAttributes =  [.foregroundColor: UIColor.white]
-        navigationController?.navigationBar.tintColor = .white
+        appearance.titleTextAttributes =  [.foregroundColor: Styles.Color.white]
+        navigationController?.navigationBar.tintColor = Styles.Color.white
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
     }
@@ -51,4 +51,5 @@ class MainCoordinator: MainCoordinatorType {
         let viewController = assembler.resolve(viewModel: viewModel)
         self.navigationController?.pushViewController(viewController, animated: true)
     }
+    
 }

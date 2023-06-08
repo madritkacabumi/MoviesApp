@@ -45,7 +45,7 @@ extension UIView {
         }
     }
     
-    func asCircle(){
+    func borderAsCircle(){
         self.layer.cornerRadius = self.frame.width / 2;
         self.layer.masksToBounds = true
     }
@@ -58,4 +58,5 @@ extension UIView {
         subView.topAnchor.constraint(equalTo: useSafeArea ? self.safeAreaLayoutGuide.topAnchor : self.topAnchor, constant: edges.top).isActive = true
         subView.bottomAnchor.constraint(equalTo: useSafeArea ? self.safeAreaLayoutGuide.bottomAnchor : self.bottomAnchor, constant: -edges.bottom).isActive = true
     }
+    
 }

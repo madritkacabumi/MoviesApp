@@ -13,11 +13,12 @@ protocol FetchFavouritesMoviesUseCaseType {
 }
 
 struct FetchFavouritesMoviesUseCase: FetchFavouritesMoviesUseCaseType {
-    
+
     let network: NetworkServiceType
     
     func getFavourites() -> AnyPublisher<ResponseModelWrapper<FavouriteMovieModel>, Error> {
         let resource = FavouritesMoviesResource()
         return network.request(resource: resource, for: ResponseModelWrapper<FavouriteMovieModel>.self)
     }
+    
 }

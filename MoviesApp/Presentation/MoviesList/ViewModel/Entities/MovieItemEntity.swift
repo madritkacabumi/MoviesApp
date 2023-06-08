@@ -23,7 +23,7 @@ struct MovieItemEntity {
                 return image
             })
             .catch { error in
-                return Just(nil)
+                return Just(Styles.Image.appIcon)
             }.eraseToAnyPublisher()
     }
     
@@ -31,6 +31,7 @@ struct MovieItemEntity {
         self.fetchImageUseCase = useCase
         self._movieModel = movie
     }
+    
 }
 
 // MARK: - Equatable

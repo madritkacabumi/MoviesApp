@@ -16,7 +16,7 @@ struct FetchMovieImageUseCaseMock: FetchMovieImageUseCaseType {
         
         counter.increment()
         
-        return Just(Image())
+        return Just(Styles.Image.appIcon ?? Image())
             .setFailureType(to: Error.self)
             .eraseToAnyPublisher()
     }

@@ -68,4 +68,5 @@ extension MoviesPresentationAdapter: UITableViewDelegate, UITableViewDataSource 
         sections[indexPath.section].movies[indexPath.row].isSelected.send(true)
         tableView.deselectRow(at: indexPath, animated: false)
     }
+    
 }

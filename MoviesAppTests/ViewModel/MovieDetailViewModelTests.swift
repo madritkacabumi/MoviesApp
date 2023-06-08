@@ -48,4 +48,5 @@ class MovieDetailViewModelTests: XCTestCase {
             self.input.loadPageTrigger.fire()
         })
     }
+    
 }
